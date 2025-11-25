@@ -1,0 +1,99 @@
+.header_title {
+  background-color: transparent;
+  color: var(--background-text-color);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.main_content {
+  background-image: url(../assets/background_image.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.storyline {
+  color: var(--background-text-color);
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+
+.instructions {
+  margin-left: 2rem;
+}
+
+.btn {
+  /* THE order of this CSS properties matters */
+  color: #444;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  cursor: pointer;
+
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+
+  padding: 0.7rem 1rem;
+  border-radius: 50rem;
+  box-shadow: 0 1.75rem 3.5rem rgba(0, 0, 0, 0.1);
+}
+
+.game_container{
+  text-align: center;
+}
+
+.map{
+  background-color: var(--background-color);
+  color: var(--color);
+  padding: 2.5rem;
+  display: inline-block;
+  border-radius: 10px;
+  font-size: 2rem;
+  
+}
+
+.hide {
+  display: none;
+}
+
+.show{
+  display: block;
+}
+
+.directions{
+  text-align: center;
+  margin: 0.5rem 0rem;
+}
+
+.directionBtn{
+  padding: 1rem 2rem;
+  margin: 0.5rem;
+  font-size: 2rem;
+  cursor: pointer;
+  background-color: var(--background-color);
+}
+@media screen and (min-width:769px) {
+  .main_content {
+    padding: 1rem;
+  }
+
+  .storyline {
+    margin-left: 2rem;
+  }
+
+  .btn {
+    font-size: 2rem;
+    width: 50%;
+  }
+
+  .map{
+    font-size: 5rem;
+  }
+}
