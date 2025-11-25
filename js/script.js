@@ -6,6 +6,39 @@ const directionsButtons = document.querySelectorAll('.directionBtn');
 const nameInput = document.querySelector('#playerNameInp');
 const messsageContainer = document.querySelector('.message_container');
 const statusContainer = document.querySelector('.status_container');
+const replayButton = document.querySelector('.replay_button');
+
+let rooms;
+let exitRow, exitCol;
+let keyRow ,keyCol;
+let freezeCrystalRow, freezeCrystalCol;
+let playerRow, playerCol;
+let ghostRow, ghostCol;
+
+let hasKey;
+let skipGhostTurn;
+
+let playerName;
+const validMovements = ["N", "E", "W", "S"];
+const mapIcons = {
+  "#": "🧱",
+  ".": "R",
+  "P": "☺️",
+  "G": "👻",
+  "K": "🔑",
+  "C": "💎",
+  "E": "🚪"
+};
+
+const directionsMap = {
+  north: 'N',
+  east: 'E',
+  west: 'W',
+  south: 'S'
+};
+
+
+const gameStates = () => {
 
 // MAP array showing the layout of the rooms
 // ------*LEGENDS*:------
@@ -17,40 +50,26 @@ const statusContainer = document.querySelector('.status_container');
 // K : key
 // C : freezing crystal 
 
-let rooms = [
-  ["#", "P", ".", "#", "."],
-  [".", ".", ".", ".", "."],
-  [".", ".", "K", "C", "E"],
-  [".", "#", ".", ".", "."],
-  ["G", ".", "#", ".", "#"]
-];
+  rooms = [
+    ["#", "P", ".", "#", "."],
+    [".", ".", ".", ".", "."],
+    [".", ".", "K", "C", "E"],
+    [".", "#", ".", ".", "."],
+    ["G", ".", "#", ".", "#"]
+  ];
 
-// TRACK the positions
-let exitRow = 2, exitCol = 4;
-let keyRow = 2, keyCol = 2;
-let freezeCrystalRow = 2, freezeCrystalCol = 3;
-let playerRow = 0, playerCol = 1;
-let ghostRow = 4, ghostCol = 0;
+  // TRACK the positions
+  exitRow = 2, exitCol = 4;
+  keyRow = 2, keyCol = 2;
+  freezeCrystalRow = 2, freezeCrystalCol = 3;
+  playerRow = 0, playerCol = 1;
+  ghostRow = 4, ghostCol = 0;
 
-// STATUS
-let hasKey = false;
-let skipGhostTurn = false; // NOTE: the freezing crystal will make the ghost lose a turn.
+  // STATUS
+  hasKey = false;
+  skipGhostTurn = false; // NOTE: the freezing crystal will make the ghost lose a turn.
 
-//PLAYERNAME input
-let playerName;
-
-// VALID movements (array comparison)
-const validMovements = ["N", "E", "W", "S"];
-
-const mapIcons = {
-  "#": "🧱",
-  ".": "R",
-  "P": "☺️",
-  "G": "👻",
-  "K": "🔑",
-  "C": "💎",
-  "E": "🚪"
-};
+}
 
 //STORY messages function
 const showMessage = (text => {
@@ -62,7 +81,6 @@ const updateStatus = (playerName => {
   statusContainer.textContent = `${playerName} has ${hasKey ? "✅ Gotten" : "❌ Not Yet Found"} the key 🔑.`;
 });
 
-// FUNCTIONS
 const showMap = (playerName => {
 
   let row = "";
@@ -167,21 +185,15 @@ const moveGhost = () => {
   rooms[ghostRow][ghostCol] = "G"; // update ghost position
 }
 
-// ----------------------GAME STARTS here---------------------
+// ------------------------------------GAME STARTS here------------------------------
 
 
 const startGame = (playerName => {
+  gameStates();
   showMessage('You awaken in a cold, dark labyrinth.Somewhere lies a key that unlocks your freedom. But beware.. a ghost hunts in the dark.'); //INTRO message
   showMap(playerName)
 
 });
-
-const directionsMap = {
-  north: 'N',
-  east: 'E',
-  west: 'W',
-  south: 'S'
-};
 
 const handleMovements = (direction) => {
 
@@ -199,11 +211,9 @@ const handleMovements = (direction) => {
     disableDirectionButtons();
     return;
   }
-
-
 }
 
-//Movement of the buttons 
+//DIRECTIONS
 directionsButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     btn.classList.remove('hide')
@@ -215,15 +225,15 @@ directionsButtons.forEach(btn => {
   })
 })
 
-
-// Disable buttons when player wins or dies
+//DISABLE buttons when player wins or dies
 const disableDirectionButtons = () => {
   directionsButtons.forEach(btn => {
-    btn.classList.add('hide')
-
+    btn.classList.add('hide');
+    replayButton.classList.remove('hide');
   })
 }
 
+//START button
 startButton.addEventListener('click', () => {
   storyLineContainer.classList.add('hide');
   gameContainer.classList.add('show');
@@ -231,3 +241,13 @@ startButton.addEventListener('click', () => {
 
   startGame(playerName);
 });
+
+//REPLAY button
+replayButton.addEventListener('click', () => {
+  gameStates();
+
+  replayButton.classList.add('hide');
+  directionsButtons.forEach(btn => btn.classList.remove('hide'));
+
+  startGame(playerName);
+})
