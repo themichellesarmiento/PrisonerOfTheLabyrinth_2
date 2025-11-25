@@ -3,7 +3,9 @@ const gameContainer = document.querySelector('.game_container');
 const mapContainer = document.querySelector('.map');
 const storyLineContainer = document.querySelector('.storyline');
 const directionsButtons = document.querySelectorAll('.directionBtn');
-const nameInput = document.querySelector('#playerNameInp')
+const nameInput = document.querySelector('#playerNameInp');
+const messsageContainer = document.querySelector('.message_container');
+const statusContainer = document.querySelector('.status_container');
 
 // MAP array showing the layout of the rooms
 // ------*LEGENDS*:------
@@ -50,9 +52,18 @@ const mapIcons = {
   "E": "🚪"
 };
 
+//STORY messages function
+const showMessage = (text => {
+  messsageContainer.textContent = text;
+});
+
+//STATUS message function
+const updateStatus = (playerName => {
+  statusContainer.textContent = `${playerName} has ${hasKey ? "✅ Gotten" : "❌ Not Yet Found"} the key 🔑.`;
+});
+
 // FUNCTIONS
 const showMap = (playerName => {
-  console.log(`${playerName} finding the exit is your way to freedom`);
 
   let row = "";
   for (let i = 0; i <= rooms.length - 1; i++) {
@@ -62,7 +73,7 @@ const showMap = (playerName => {
     row += "<br>";
   }
   mapContainer.innerHTML = row;
-  console.log(`${playerName} has ${hasKey ? "✅ Gotten" : "❌ Not Yet Found"} the key 🔑.`);
+  updateStatus(playerName);
 });
 
 const checkPlayerConditions = (playerName => {
@@ -70,15 +81,15 @@ const checkPlayerConditions = (playerName => {
   if (playerRow === exitRow && playerCol === exitCol) {
     // CHECK if player has the key
     if (hasKey) {
-      console.log(`${playerName}, you found the exit! The gate creaks open . You get to live for now`);
+      showMessage(`${playerName}, you found the exit! The gate creaks open . You get to live for now`);
       return true; // player wins!
     } else {
-      console.log(`${playerName}, the gate is locked. You need the key 🔑 first!`);
+      showMessage(`${playerName}, the gate is locked. You need the key 🔑 first!`);
     }
   }
 
   if (playerRow === ghostRow && playerCol === ghostCol) {
-    console.log(`${playerName}, the creature's shadow looms over you 👻. This is the end 💀 `);
+    showMessage(`${playerName}, the creature's shadow looms over you 👻. This is the end 💀 `);
     return true;
   }
   return false;
@@ -101,7 +112,7 @@ const movePlayer = (playerMove, playerName) => {
 
   // CHECK if player move is valid
   if (!isMoveValid(newPlayerRow, newPlayerCol)) {
-    console.log(`${playerName}, invalid move , you stumble agaianst a wall.`);
+    showMessage(`${playerName}, invalid move , you stumble agaianst a wall.`);
     return false; // dont update player position
   }
 
@@ -114,13 +125,13 @@ const movePlayer = (playerMove, playerName) => {
   // PLAYER picked up key
   if (playerRow === keyRow && playerCol === keyCol && !hasKey) {
     hasKey = true;
-    console.log(`${playerName}, you found the key! 🔑`);
+    showMessage(`${playerName}, you found the key! 🔑`);
   }
 
   // PLAYER picked up crystal
   if (playerRow === freezeCrystalRow && playerCol === freezeCrystalCol) {
     skipGhostTurn = true;
-    console.log(`${playerName}, you found a gem: The freezing crystal. Ghost will lose a turn. Use this chance wisely.`);
+    showMessage(`${playerName}, you found a gem: The freezing crystal. Ghost will lose a turn. Use this chance wisely.`);
     rooms[freezeCrystalRow][freezeCrystalCol] = "." // remove the crystal from the map
   }
 
@@ -131,7 +142,7 @@ const movePlayer = (playerMove, playerName) => {
 
 const moveGhost = () => {
   if (skipGhostTurn) {
-    console.log('The ghost is frozen and cannot move in this turn. 👻🥶');
+    showMessage('The ghost is frozen and cannot move in this turn. 👻🥶');
     skipGhostTurn = false; // reset after skipping a turn 
     return;
   }
@@ -158,9 +169,9 @@ const moveGhost = () => {
 
 // ----------------------GAME STARTS here---------------------
 
-console.log('You awaken in a cold, dark labyrinth.Somewhere lies a key that unlocks your freedom. But beware.. a ghost hunts in the dark.');
 
 const startGame = (playerName => {
+  showMessage('You awaken in a cold, dark labyrinth.Somewhere lies a key that unlocks your freedom. But beware.. a ghost hunts in the dark.'); //INTRO message
   showMap(playerName)
 
 });
@@ -183,7 +194,7 @@ const handleMovements = (direction) => {
   rooms[exitRow][exitCol] = "E";
 
   showMap(playerName);
-  console.log(playerName);
+
   if (checkPlayerConditions(playerName)) {
     disableDirectionButtons();
     return;

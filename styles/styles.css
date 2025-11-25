@@ -79,6 +79,27 @@
   cursor: pointer;
   background-color: var(--background-color);
 }
+
+.message_container{
+  background-color: var(--background-color);
+  color: var(--color);
+  padding: 1.5rem 1rem;
+  border-radius: 10px;
+  min-height: 100px;
+  margin: 0.5rem 0rem;
+  font-size: 1.2rem;
+}
+
+.status_container{
+  background-color: var(--background-color);
+  color: var(--color);
+  padding: 1.5rem 1rem;
+  border-radius: 10px;
+  margin: 0.5rem 0rem;
+  font-size: 1.2rem;
+
+}
+
 @media screen and (min-width:769px) {
   .main_content {
     padding: 1rem;
