@@ -7,18 +7,20 @@ const nameInput = document.querySelector('#playerNameInp');
 const messsageContainer = document.querySelector('.message_container');
 const statusContainer = document.querySelector('.status_container');
 const replayButton = document.querySelector('.replay_button');
+const lifeCountContainer = document.querySelector('.counter_container');
 
 let rooms;
 let exitRow, exitCol;
-let keyRow ,keyCol;
+let keyRow, keyCol;
 let freezeCrystalRow, freezeCrystalCol;
 let playerRow, playerCol;
 let ghostRow, ghostCol;
 
+let playerName;
 let hasKey;
 let skipGhostTurn;
+let lifeCount;
 
-let playerName;
 const validMovements = ["N", "E", "W", "S"];
 const mapIcons = {
   "#": "🧱",
@@ -40,15 +42,15 @@ const directionsMap = {
 
 const gameStates = () => {
 
-// MAP array showing the layout of the rooms
-// ------*LEGENDS*:------
-// . : empty rooms
-// # : a wall
-// P : represents player and their position
-// G : represents the ghost and its position
-// E : exit 
-// K : key
-// C : freezing crystal 
+  // MAP array showing the layout of the rooms
+  // ------*LEGENDS*:------
+  // . : empty rooms
+  // # : a wall
+  // P : represents player and their position
+  // G : represents the ghost and its position
+  // E : exit 
+  // K : key
+  // C : freezing crystal 
 
   rooms = [
     ["#", "P", ".", "#", "."],
@@ -69,6 +71,9 @@ const gameStates = () => {
   hasKey = false;
   skipGhostTurn = false; // NOTE: the freezing crystal will make the ghost lose a turn.
 
+  lifeCount = 10; // reset lifecount
+  displayLifeCount();
+
 }
 
 //STORY messages function
@@ -78,7 +83,7 @@ const showMessage = (text => {
 
 //STATUS message function
 const updateStatus = (playerName => {
-  statusContainer.textContent = `${playerName} has ${hasKey ? "✅ Gotten" : "❌ Not Yet Found"} the key 🔑.`;
+  statusContainer.textContent = `${playerName} has ${hasKey ? "✅ gotten" : "❌ not yet found"} the key 🔑.`;
 });
 
 const showMap = (playerName => {
@@ -130,7 +135,7 @@ const movePlayer = (playerMove, playerName) => {
 
   // CHECK if player move is valid
   if (!isMoveValid(newPlayerRow, newPlayerCol)) {
-    showMessage(`${playerName}, invalid move , you stumble agaianst a wall.`);
+    showMessage(`${playerName}, invalid move , you stumble against a wall.`);
     return false; // dont update player position
   }
 
@@ -195,12 +200,26 @@ const startGame = (playerName => {
 
 });
 
+//LIFECOUNT
+const displayLifeCount = () => {
+  lifeCountContainer.textContent = `You have ${lifeCount} moves remaining`;
+}
+
 const handleMovements = (direction) => {
 
   if (!validMovements.includes(direction)) return;
 
   movePlayer(direction, playerName)
   moveGhost();
+
+  lifeCount--;
+  displayLifeCount();
+
+  if (lifeCount <= 0) {
+    showMessage(`${playerName} you ran out of life counts. Game over 👻`)
+    disableDirectionButtons();
+    return;
+  }
 
   if (!hasKey) rooms[keyRow][keyCol] = "K";
   rooms[exitRow][exitCol] = "E";
@@ -251,3 +270,5 @@ replayButton.addEventListener('click', () => {
 
   startGame(playerName);
 })
+
+
