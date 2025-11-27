@@ -80,7 +80,7 @@
   background-color: var(--background-color);
 }
 
-.status_container , .counter_container ,.message_container{
+.status_container , .counter_container ,.message_container ,.score_container{
   color: var(--primary-color);
   padding: 0.5rem;
   border-radius: 10px;

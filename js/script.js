@@ -8,6 +8,7 @@ const messsageContainer = document.querySelector('.message_container');
 const statusContainer = document.querySelector('.status_container');
 const replayButton = document.querySelector('.replay_button');
 const lifeCountContainer = document.querySelector('.counter_container');
+const scoreContainer = document.querySelector('.score_container');
 
 let rooms;
 let exitRow, exitCol;
@@ -20,6 +21,8 @@ let playerName;
 let hasKey;
 let skipGhostTurn;
 let lifeCount;
+let playerWins = 0;
+let playerLoses = 0;
 
 const validMovements = ["N", "E", "W", "S"];
 const mapIcons = {
@@ -74,6 +77,8 @@ const gameStates = () => {
   lifeCount = 10; // reset lifecount
   displayLifeCount();
 
+  displayScore();
+
 }
 
 //STORY messages function
@@ -104,6 +109,8 @@ const checkPlayerConditions = (playerName => {
   if (playerRow === exitRow && playerCol === exitCol) {
     // CHECK if player has the key
     if (hasKey) {
+      playerWins++;
+      displayScore();
       showMessage(`${playerName}, you found the exit! The gate creaks open . You get to live for now`);
       return true; // player wins!
     } else {
@@ -112,6 +119,8 @@ const checkPlayerConditions = (playerName => {
   }
 
   if (playerRow === ghostRow && playerCol === ghostCol) {
+    playerLoses++;
+    displayScore();
     showMessage(`${playerName}, the creature's shadow looms over you 👻. This is the end 💀 `);
     return true;
   }
@@ -205,6 +214,11 @@ const displayLifeCount = () => {
   lifeCountContainer.textContent = `You have ${lifeCount} moves remaining`;
 }
 
+//TRACK player wins or losses 
+const displayScore = () => {
+  scoreContainer.textContent = `You have ${playerWins} wins and ${playerLoses} loses`;
+}
+
 const handleMovements = (direction) => {
 
   if (!validMovements.includes(direction)) return;
@@ -217,6 +231,8 @@ const handleMovements = (direction) => {
 
   if (lifeCount <= 0) {
     showMessage(`${playerName} you ran out of life counts. Game over 👻`)
+    playerLoses++;
+    displayScore();
     disableDirectionButtons();
     return;
   }
