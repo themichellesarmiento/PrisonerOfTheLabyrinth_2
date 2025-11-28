@@ -15,6 +15,7 @@
 
 <body>
 
+  <div class="overlay"></div>
   <main class="main-content">
     <h1 class="header_title">Prisoner of the Labyrinth</h1>
     <div class="game_container hide">
@@ -29,10 +30,13 @@
           </div>
           <button class="directionBtn south">⬇️</button>
         </div>
-        <button class="btn replay_button hide">Replay</button>
+        <div class="button-wrapper">
+          <button class="btn replay_button hide">Replay</button>
+          <button class="btn quit_button hide">Quit</button>
+        </div>
         <div class="message-wrapper">
-          <div class="status_container"></div>
           <div class="score_container"></div>
+          <div class="status_container"></div>
           <div class="counter_container"></div>
         </div>
       </div>

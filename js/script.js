@@ -7,6 +7,7 @@ const nameInput = document.querySelector('#playerNameInp');
 const messsageContainer = document.querySelector('.message_container');
 const statusContainer = document.querySelector('.status_container');
 const replayButton = document.querySelector('.replay_button');
+const quitButton = document.querySelector('.quit_button');
 const lifeCountContainer = document.querySelector('.counter_container');
 const scoreContainer = document.querySelector('.score_container');
 
@@ -270,6 +271,7 @@ const disableDirectionButtons = () => {
     btn.classList.add('hide');
   })
   replayButton.classList.remove('hide');
+  quitButton.classList.remove('hide');
 }
 
 //START button
@@ -285,9 +287,24 @@ startButton.addEventListener('click', () => {
 replayButton.addEventListener('click', () => {
   gameStates();
   replayButton.classList.add('hide');
+  quitButton.classList.add('hide');
   directionsButtons.forEach(btn => btn.classList.remove('hide'));
 
   startGame(playerName);
+})
+
+//QUIT button 
+quitButton.addEventListener('click', () => {
+  replayButton.classList.add('hide');
+  quitButton.classList.add('hide');
+  storyLineContainer.classList.remove('hide');
+  gameContainer.classList.remove('show');
+  displayOverlay();
+
+  setTimeout(()=>{
+    location.reload(); //refresh the page
+  },6000);
+
 })
 
 const mapEffect = () => {
@@ -300,4 +317,15 @@ $('.directionBtn').on({
   touchend: e => $(e.target).removeClass('press'),
 
 })
+
+const displayOverlay = () => {
+  $('.overlay').addClass('show').delay(5000).fadeOut();
+
+  setTimeout(() => $('.overlay').text('Prisoner'), 500)
+  setTimeout(() => $('.overlay').text('Of'), 800)
+  setTimeout(() => $('.overlay').text('The'), 1400)
+  setTimeout(() => $('.overlay').text('Labyrinth'), 1800)
+  setTimeout(() => $('.overlay').text('2'), 2200)
+}
+
 

@@ -89,7 +89,6 @@
 .counter_container,
 .message_container,
 .score_container {
-  border-radius: 10px;
   font-size: 1rem;
   margin: 0.5rem 0rem;
   padding: 0.5rem;
@@ -97,6 +96,9 @@
 
 .score_container {
   color: var(--accent-color-one);
+  border: 10px dotted var(--primary-color);
+  margin: auto;
+  padding: 0.5rem;
 }
 
 .status_container {
@@ -114,6 +116,7 @@
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+  gap: 2rem;
 }
 
 .message-wrapper {
@@ -121,6 +124,13 @@
   flex: 1;
   flex-direction: column;
   align-content: baseline;
+}
+
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
 }
 
 .playername_container {
@@ -132,15 +142,43 @@
 }
 
 .start_button,
-.replay_button {
-  background-color: var(--cta-background-color);
+.replay_button,
+.quit_button {
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+.start_button,
+.replay_button {
+  background-color: var(--cta-background-color);
+}
+
+.quit_button {
+  background-color: var(--accent-color-three);
 }
 
 .press {
   transform: scale(1.1);
   box-shadow: 0 0 10px var(--secondary-color)
+}
+
+.overlay {
+  background-color: var(--background-color);
+  bottom: 0;
+  color: var(--secondary-color);
+  display: none;
+  font-size: 3rem;
+  left: 0;
+  position: fixed;
+  right: 0;
+  text-transform: uppercase;
+  top: 0;
+}
+
+.overlay.show {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 @media screen and (min-width:769px) {
@@ -171,7 +209,8 @@
   .message_container,
   .score_container,
   .start_button,
-  .replay_button {
+  .replay_button,
+  .quit_button {
     font-size: 2rem;
   }
 
@@ -186,5 +225,14 @@
 
   .message-wrapper {
     flex: 0.5;
+  }
+
+  .quit_button,
+  .replay_button {
+    width: 100%;
+  }
+
+  .overlay {
+    font-size: 5rem;
   }
 }
