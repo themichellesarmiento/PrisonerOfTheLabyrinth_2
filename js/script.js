@@ -83,7 +83,7 @@ const gameStates = () => {
 
 //STORY messages function
 const showMessage = (text => {
-  messsageContainer.textContent = text;
+  $('.message_container').fadeOut(0).text(text).fadeIn(600);
 });
 
 //STATUS message function
@@ -204,6 +204,7 @@ const moveGhost = () => {
 
 const startGame = (playerName => {
   gameStates();
+  mapEffect();
   showMessage('You awaken in a cold, dark labyrinth.Somewhere lies a key that unlocks your freedom. But beware.. a ghost hunts in the dark.'); //INTRO message
   showMap(playerName)
 
@@ -264,8 +265,8 @@ directionsButtons.forEach(btn => {
 const disableDirectionButtons = () => {
   directionsButtons.forEach(btn => {
     btn.classList.add('hide');
-    replayButton.classList.remove('hide');
   })
+  replayButton.classList.remove('hide');
 }
 
 //START button
@@ -280,11 +281,20 @@ startButton.addEventListener('click', () => {
 //REPLAY button
 replayButton.addEventListener('click', () => {
   gameStates();
-
   replayButton.classList.add('hide');
   directionsButtons.forEach(btn => btn.classList.remove('hide'));
 
   startGame(playerName);
 })
 
+const mapEffect = () => {
+  $('.map').hide().fadeIn(600);
+}
+
+//BUTTONS effects: cross platfrom sol'n using touch events
+$('.directionBtn').on({
+  touchstart: e => $(e.target).addClass('press'),
+  touchend: e => $(e.target).removeClass('press'),
+
+})
 
