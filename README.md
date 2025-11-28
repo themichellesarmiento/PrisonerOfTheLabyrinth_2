@@ -1,51 +1,59 @@
 # 🔐 Prisoner of the Labyrinth
 
 ## 🎮 About the Game
-**Prisoner of the Labyrinth** is a simple JavaScript console based adventure game where you, the player awaken trapped in a dark dungeon.
+**Prisoner of the Labyrinth 2** is a simple browser game based adventure where you, the player awaken trapped in a dark dungeon.
 Somewhere in the maze lies a key that unlocks the exit, but beware - a ghost hunts you in the dark!
 
-**_Find the key, avoid the ghost_**, and escape.. if you can.
+**_Find the key, avoid the ghost_**, and escape or **before your _moves run out_**..
 > You might even find a **_freezing crystal_** that gives you one turn of safety by freezing the ghost!
 
+This is UI-based version of the previous one.
+No prompts, no console input, no text commands.
+>Everything happens directly in the browser through buttons and live map rendering.
+
 ## ⚙️ Core Features
-- ✅ Grid based labyrinth using array.
-- ✅ Interactive player input using **prompt()**
-- ✅ Real time map updates in the console.
-- ✅ Uses loops and conditionals.
+- ✅ Visual Map Rendering
+> Each tile represents something and the map updates automatically after every move.
+- ✅ Button-based Player Controls:
+>Movement is done using on-screen direction buttons:
+   - N ⬆️ North (up)
+   - E ➡️ East (right)
+   - W ⬅️ West (left)
+   - S ⬇️ South (down)
 - ✅ Ghost with simple chase mechanics.
 - ✅ Pickups:
     - 🔑 Key - unlocks the exit
     - 🧊 Freezing Crystal - freezes the ghost for on turn.
+- ✅ Life/Move Counter
+> Reaching 0 moves results in instant defeat.
 - ✅ Win and lose conditions
+- ✅ Replay System
+> Win/Loss statistics persist for the entire session.
 
-## 🎮 How to Play
-1. Open the Game:
-👉 [Prisoner Of The Labyrinth](https://themichellesarmiento.github.io/PrisonerOfTheLabyrinth/)
-2. Enter your name when prompted.
-3. Move using the keyboard commands.
-   - N → North (up)
-   - E → East (right)
-   - W → West (left)
-   - S → South (down)
-4. Your mission:
-   - Explore the **map**.
-   - Find the 🔑 **key**.
-   - Avoid the 👻 **ghost**.
-   - Use the 🧊 **crystal** to freeze the ghost once.
-   - Escape through the **E (exit)** once you have the key.
+## 🎮 Game Flow
+1. Player enters a name.
+2. Click **Start Game**
+3. Player moves through the labyrinth
+4. Win By:
+   - Finding the 🔑 **key**.
+   - Escaping through the **E (exit)** once you have the key.
+5. Lose By:
+   - Getting caught by the 👻 **ghost**.
+   - Running out of moves.
+6. Replay button allows restarting without refreshing the page.
 
 ## 🧰 Built With
 - 🖥️ **HTML5** – For pages and contents structure
 - 🎨 **CSS3** - For styling , layout and responsiveness
-- 🧠 **JavaScript(Vanilla)** - Main logic
+- 🧠 **JavaScript(Vanilla)** - Main logic and state handling
+- 🪄 **jQuery** - Effects
 
 ## 🚀 Future Improvements or Plans
 - ⏳ Add multiple ghosts, add traps that would make player lose a turn. 
 - ⏳ Make freezing crystal to use later option available.
 - ⏳ Improve ghost movement logic, as its moves can be blocked by the wall. To improve, it should find an alternative direction that still brings closer to the player once blocked by the wall oe exit.
 - ⏳ Randomized map: generate key, walls, exit randomly when game starts.
-- ⏳ Make certain number of moves , eg. 10 moves before automatic game over.
-- ⏳ Visual HTML grid version.
+- ⏳ Sound effects
 
 ## 🤝 How To Contribute
 We love community contributions! Here is how you can help improve this project:

@@ -18,20 +18,24 @@
   <main class="main-content">
     <h1 class="header_title">Prisoner of the Labyrinth</h1>
     <div class="game_container hide">
-      <div class="score_container"></div>
       <div class="message_container"></div>
-      <div class="status_container"></div>
-      <div class="counter_container"></div>
       <div class="map"></div>
-      <div class="directions">
-        <button class="directionBtn north">⬆️</button>
-        <div>
-          <button class="directionBtn west">⬅️</button>
-          <button class="directionBtn east">➡️</button>
+      <div class="wrapper">
+        <div class="directions">
+          <button class="directionBtn north">⬆️</button>
+          <div>
+            <button class="directionBtn west">⬅️</button>
+            <button class="directionBtn east">➡️</button>
+          </div>
+          <button class="directionBtn south">⬇️</button>
         </div>
-        <button class="directionBtn south">⬇️</button>
+        <button class="btn replay_button hide">Replay</button>
+        <div class="message-wrapper">
+          <div class="status_container"></div>
+          <div class="score_container"></div>
+          <div class="counter_container"></div>
+        </div>
       </div>
-      <button class="btn replay_button hide">Replay</button>
     </div>
     <section class="storyline">
       <div>
@@ -57,7 +61,7 @@
       <button class="btn start_button">Enter The Labyrinth</button>
     </section>
   </main>
-  
+
 </body>
 
 </html>

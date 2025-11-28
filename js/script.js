@@ -88,20 +88,23 @@ const showMessage = (text => {
 
 //STATUS message function
 const updateStatus = (playerName => {
-  statusContainer.textContent = `${playerName} has ${hasKey ? "✅ gotten" : "❌ not yet found"} the key 🔑.`;
+  statusContainer.textContent = `${hasKey ? "✅ " : "❌"} ${playerName}  has ${hasKey ? "gotten" : "not yet found"} the key 🔑`;
 });
 
 const showMap = (playerName => {
 
-  let row = "";
-  for (let i = 0; i <= rooms.length - 1; i++) {
-    for (let j = 0; j < rooms[i].length; j++) {
-      row += mapIcons[rooms[i][j]] + " ";
-    }
-    row += "<br>";
-  }
-  mapContainer.innerHTML = row;
-  updateStatus(playerName);
+  mapContainer.innerHTML = "";
+
+  rooms.forEach(row => {
+    row.forEach(roomTile => {
+      const roomCell = document.createElement("div");
+      roomCell.classList.add("room");
+      roomCell.textContent = mapIcons[roomTile];
+      mapContainer.appendChild(roomCell);
+    });
+  });
+
+  updateStatus(playerName)
 });
 
 const checkPlayerConditions = (playerName => {
@@ -217,7 +220,7 @@ const displayLifeCount = () => {
 
 //TRACK player wins or losses 
 const displayScore = () => {
-  scoreContainer.textContent = `You have ${playerWins} wins and ${playerLoses} loses`;
+  scoreContainer.textContent = `Wins: ${playerWins} Losses: ${playerLoses} `;
 }
 
 const handleMovements = (direction) => {
