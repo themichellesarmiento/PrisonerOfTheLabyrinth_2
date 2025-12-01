@@ -18,6 +18,7 @@ let keyRow, keyCol;
 let freezeCrystalRow, freezeCrystalCol;
 let playerRow, playerCol;
 let ghostRow, ghostCol;
+let healingPotionRow, healingPotionCol;
 
 let playerName = " ";
 let hasKey;
@@ -34,7 +35,8 @@ const mapIcons = {
   "G": "👻",
   "K": "🔑",
   "C": "💎",
-  "E": "🚪"
+  "E": "🚪",
+  "H": "⛑️"
 };
 
 const directionsMap = {
@@ -81,6 +83,9 @@ const generateRandomizedEntities = () => {
   [ghostRow, ghostCol] = getRandomEmptyCell(rooms);
   rooms[ghostRow][ghostCol] = "G";
 
+  [healingPotionRow, healingPotionCol] = getRandomEmptyCell(rooms);
+  rooms[healingPotionRow][healingPotionCol] = "H";
+
 }
 
 
@@ -98,7 +103,7 @@ const gameStates = () => {
 
   rooms = [
     ["#", "P", ".", "#", "."],
-    [".", ".", ".", ".", "."],
+    [".", ".", "H", ".", "."],
     [".", ".", "K", "C", "E"],
     [".", "#", ".", ".", "."],
     ["G", ".", "#", ".", "#"]
@@ -110,6 +115,7 @@ const gameStates = () => {
   freezeCrystalRow = 2, freezeCrystalCol = 3;
   playerRow = 0, playerCol = 1;
   ghostRow = 4, ghostCol = 0;
+  healingPotionRow = 1, healingPotionCol = 2;
 
   // STATUS
   hasKey = false;
@@ -209,6 +215,12 @@ const movePlayer = (playerMove, playerName) => {
     skipGhostTurn = true;
     showMessage(`${playerName}, you found a gem: The freezing crystal. Ghost will lose a turn. Use this chance wisely.`);
     rooms[freezeCrystalRow][freezeCrystalCol] = "." // remove the crystal from the map
+  }
+
+  if (playerRow === healingPotionRow && playerCol === healingPotionCol) {
+    showMessage(`${playerName}, you found a healing potion. Extra 5 moves`);
+    lifeCount += 5;
+    rooms[healingPotionRow][healingPotionRow] = ".";
   }
 
   // UPDATE player symbol in the map
