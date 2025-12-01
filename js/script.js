@@ -11,6 +11,7 @@ const quitButton = document.querySelector('.quit_button');
 const lifeCountContainer = document.querySelector('.counter_container');
 const scoreContainer = document.querySelector('.score_container');
 
+
 let rooms;
 let exitRow, exitCol;
 let keyRow, keyCol;
@@ -18,7 +19,7 @@ let freezeCrystalRow, freezeCrystalCol;
 let playerRow, playerCol;
 let ghostRow, ghostCol;
 
-let playerName;
+let playerName = " ";
 let hasKey;
 let skipGhostTurn;
 let lifeCount;
@@ -42,6 +43,45 @@ const directionsMap = {
   west: 'W',
   south: 'S'
 };
+
+//RANDOMIZED map
+const getRandomEmptyCell = (map) => {
+  let row, col;
+
+  do {
+    row = Math.floor(Math.random() * map.length);
+    col = Math.floor(Math.random() * map[0].length)
+  }
+  while (map[row][col] !== ".");
+  return [row, col];
+}
+
+const generateRandomizedEntities = () => {
+  //reset map
+  rooms = [
+    ["#", ".", ".", "#", "."],
+    [".", ".", ".", ".", "."],
+    [".", ".", ".", ".", "."],
+    [".", "#", ".", ".", "."],
+    [".", ".", ".", ".", "."]
+  ];
+  //random for all the entities
+  [exitRow, exitCol] = getRandomEmptyCell(rooms);
+  rooms[exitRow][exitCol] = "E";
+
+  [keyRow, keyCol] = getRandomEmptyCell(rooms);
+  rooms[keyRow][keyCol] = "K";
+
+  [freezeCrystalRow, freezeCrystalCol] = getRandomEmptyCell(rooms);
+  rooms[freezeCrystalRow][freezeCrystalCol] = "C";
+
+  [playerRow, playerCol] = getRandomEmptyCell(rooms);
+  rooms[playerRow][playerCol] = "P";
+
+  [ghostRow, ghostCol] = getRandomEmptyCell(rooms);
+  rooms[ghostRow][ghostCol] = "G";
+
+}
 
 
 const gameStates = () => {
@@ -209,6 +249,7 @@ const moveGhost = () => {
 const startGame = (playerName => {
   gameStates();
   mapEffect();
+  generateRandomizedEntities();
   showMessage('You awaken in a cold, dark labyrinth.Somewhere lies a key that unlocks your freedom. But beware.. a ghost hunts in the dark.'); //INTRO message
   showMap(playerName)
 
@@ -299,13 +340,14 @@ quitButton.addEventListener('click', () => {
   quitButton.classList.add('hide');
   storyLineContainer.classList.remove('hide');
   gameContainer.classList.remove('show');
-  displayOverlay();
+  nameInput.value = " ";
 
-  setTimeout(()=>{
-    location.reload(); //refresh the page
-  },6000);
+  location.reload(); //refresh the page
 
 })
+
+$('.intro-container').delay(5000).fadeOut();
+$('.intro_text').fadeIn(1000).delay(1500).fadeOut(1000);
 
 const mapEffect = () => {
   $('.map').hide().fadeIn(600);
@@ -317,15 +359,5 @@ $('.directionBtn').on({
   touchend: e => $(e.target).removeClass('press'),
 
 })
-
-const displayOverlay = () => {
-  $('.overlay').addClass('show').delay(5000).fadeOut();
-
-  setTimeout(() => $('.overlay').text('Prisoner'), 500)
-  setTimeout(() => $('.overlay').text('Of'), 800)
-  setTimeout(() => $('.overlay').text('The'), 1400)
-  setTimeout(() => $('.overlay').text('Labyrinth'), 1800)
-  setTimeout(() => $('.overlay').text('2'), 2200)
-}
 
 
