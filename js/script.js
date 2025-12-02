@@ -19,6 +19,7 @@ let freezeCrystalRow, freezeCrystalCol;
 let playerRow, playerCol;
 let ghostRow, ghostCol;
 let healingPotionRow, healingPotionCol;
+let trapRow, trapCol;
 
 let playerName = " ";
 let hasKey;
@@ -36,7 +37,8 @@ const mapIcons = {
   "K": "🔑",
   "C": "💎",
   "E": "🚪",
-  "H": "⛑️"
+  "H": "⛑️",
+  "T": "🕳️"
 };
 
 const directionsMap = {
@@ -67,6 +69,7 @@ const generateRandomizedEntities = () => {
     [".", "#", ".", ".", "."],
     [".", ".", ".", ".", "."]
   ];
+
   //random for all the entities
   [exitRow, exitCol] = getRandomEmptyCell(rooms);
   rooms[exitRow][exitCol] = "E";
@@ -86,44 +89,20 @@ const generateRandomizedEntities = () => {
   [healingPotionRow, healingPotionCol] = getRandomEmptyCell(rooms);
   rooms[healingPotionRow][healingPotionCol] = "H";
 
+  [trapRow, trapCol] = getRandomEmptyCell(rooms);
+  rooms[trapRow][trapCol] = "T";
+
 }
 
 
-const gameStates = () => {
-
-  // MAP array showing the layout of the rooms
-  // ------*LEGENDS*:------
-  // . : empty rooms
-  // # : a wall
-  // P : represents player and their position
-  // G : represents the ghost and its position
-  // E : exit 
-  // K : key
-  // C : freezing crystal 
-
-  rooms = [
-    ["#", "P", ".", "#", "."],
-    [".", ".", "H", ".", "."],
-    [".", ".", "K", "C", "E"],
-    [".", "#", ".", ".", "."],
-    ["G", ".", "#", ".", "#"]
-  ];
-
-  // TRACK the positions
-  exitRow = 2, exitCol = 4;
-  keyRow = 2, keyCol = 2;
-  freezeCrystalRow = 2, freezeCrystalCol = 3;
-  playerRow = 0, playerCol = 1;
-  ghostRow = 4, ghostCol = 0;
-  healingPotionRow = 1, healingPotionCol = 2;
-
+const resetStates = () => {
   // STATUS
   hasKey = false;
   skipGhostTurn = false; // NOTE: the freezing crystal will make the ghost lose a turn.
 
   lifeCount = 10; // reset lifecount
-  displayLifeCount();
 
+  displayLifeCount();
   displayScore();
 
 }
@@ -179,7 +158,7 @@ const checkPlayerConditions = (playerName => {
 
 const isMoveValid = (row, col) => {
   return (row >= 0 && row < rooms.length &&
-    col >= 0 && col < rooms.length
+    col >= 0 && col < rooms[0].length
     && rooms[row][col] !== "#");
 }
 
@@ -217,10 +196,18 @@ const movePlayer = (playerMove, playerName) => {
     rooms[freezeCrystalRow][freezeCrystalCol] = "." // remove the crystal from the map
   }
 
+  //PLAYER picked up healing potion
   if (playerRow === healingPotionRow && playerCol === healingPotionCol) {
     showMessage(`${playerName}, you found a healing potion. Extra 5 moves`);
     lifeCount += 5;
-    rooms[healingPotionRow][healingPotionRow] = ".";
+    rooms[healingPotionRow][healingPotionCol] = ".";
+  }
+
+  //PLAYER fell into the trap 
+  if (playerRow === trapRow && playerCol === trapCol) {
+    showMessage(`${playerName}, you fell into a trap. You lost two life counts`);
+    lifeCount -= 2;
+    rooms[trapRow][trapCol] = ".";
   }
 
   // UPDATE player symbol in the map
@@ -234,6 +221,7 @@ const moveGhost = () => {
     skipGhostTurn = false; // reset after skipping a turn 
     return;
   }
+  //rooms[ghostRow][ghostCol] = ghostCurrentPosition;
   rooms[ghostRow][ghostCol] = ".";
   let newGhostRow = ghostRow;
   let newGhostCol = ghostCol;
@@ -246,12 +234,13 @@ const moveGhost = () => {
   else if (ghostCol < playerCol) newGhostCol++;
   else if (ghostCol > playerCol) newGhostCol--;
 
-  // CHECK if ghost move is valid , avoid exit, wall
+  // CHECK if ghost move is valid , avoid exit, wall ,key and crystal
   if (isMoveValid(newGhostRow, newGhostCol) &&
-    rooms[newGhostRow][newGhostCol] !== "E") {
+    rooms[newGhostRow][newGhostCol] !== "E" && rooms[newGhostRow][newGhostCol] !== "K" && rooms[newGhostRow][newGhostCol] !== "C") {
     ghostRow = newGhostRow;
     ghostCol = newGhostCol;
   }
+
   rooms[ghostRow][ghostCol] = "G"; // update ghost position
 }
 
@@ -259,9 +248,9 @@ const moveGhost = () => {
 
 
 const startGame = (playerName => {
-  gameStates();
-  mapEffect();
+  resetStates();
   generateRandomizedEntities();
+  mapEffect();
   showMessage('You awaken in a cold, dark labyrinth.Somewhere lies a key that unlocks your freedom. But beware.. a ghost hunts in the dark.'); //INTRO message
   showMap(playerName)
 
@@ -338,7 +327,6 @@ startButton.addEventListener('click', () => {
 
 //REPLAY button
 replayButton.addEventListener('click', () => {
-  gameStates();
   replayButton.classList.add('hide');
   quitButton.classList.add('hide');
   directionsButtons.forEach(btn => btn.classList.remove('hide'));
