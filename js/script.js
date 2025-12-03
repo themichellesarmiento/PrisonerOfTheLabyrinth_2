@@ -61,7 +61,6 @@ const getRandomEmptyCell = (map) => {
 }
 
 const generateRandomizedEntities = () => {
-  //reset map
   rooms = [
     ["#", ".", ".", "#", "."],
     [".", ".", ".", ".", "."],
@@ -70,7 +69,6 @@ const generateRandomizedEntities = () => {
     [".", ".", ".", ".", "."]
   ];
 
-  //random for all the entities
   [exitRow, exitCol] = getRandomEmptyCell(rooms);
   rooms[exitRow][exitCol] = "E";
 
@@ -91,20 +89,16 @@ const generateRandomizedEntities = () => {
 
   [trapRow, trapCol] = getRandomEmptyCell(rooms);
   rooms[trapRow][trapCol] = "T";
-
 }
 
 
 const resetStates = () => {
-  // STATUS
   hasKey = false;
-  skipGhostTurn = false; // NOTE: the freezing crystal will make the ghost lose a turn.
-
-  lifeCount = 10; // reset lifecount
+  skipGhostTurn = false;
+  lifeCount = 10;
 
   displayLifeCount();
   displayScore();
-
 }
 
 //STORY messages function
@@ -118,7 +112,6 @@ const updateStatus = (playerName => {
 });
 
 const showMap = (playerName => {
-
   mapContainer.innerHTML = "";
 
   rooms.forEach(row => {
@@ -221,7 +214,6 @@ const moveGhost = () => {
     skipGhostTurn = false; // reset after skipping a turn 
     return;
   }
-  //rooms[ghostRow][ghostCol] = ghostCurrentPosition;
   rooms[ghostRow][ghostCol] = ".";
   let newGhostRow = ghostRow;
   let newGhostCol = ghostCol;
@@ -234,13 +226,12 @@ const moveGhost = () => {
   else if (ghostCol < playerCol) newGhostCol++;
   else if (ghostCol > playerCol) newGhostCol--;
 
-  // CHECK if ghost move is valid , avoid exit, wall ,key and crystal
+  // CHECK if ghost move is valid , avoid exit, wall ,key
   if (isMoveValid(newGhostRow, newGhostCol) &&
-    rooms[newGhostRow][newGhostCol] !== "E" && rooms[newGhostRow][newGhostCol] !== "K" && rooms[newGhostRow][newGhostCol] !== "C") {
+    rooms[newGhostRow][newGhostCol] !== "E" && rooms[newGhostRow][newGhostCol] !== "K") {
     ghostRow = newGhostRow;
     ghostCol = newGhostCol;
   }
-
   rooms[ghostRow][ghostCol] = "G"; // update ghost position
 }
 
@@ -267,7 +258,6 @@ const displayScore = () => {
 }
 
 const handleMovements = (direction) => {
-
   if (!validMovements.includes(direction)) return;
 
   movePlayer(direction, playerName)
@@ -357,7 +347,6 @@ const mapEffect = () => {
 $('.directionBtn').on({
   touchstart: e => $(e.target).addClass('press'),
   touchend: e => $(e.target).removeClass('press'),
-
 })
 
 

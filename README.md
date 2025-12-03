@@ -13,17 +13,20 @@ No prompts, no console input, no text commands.
 
 ## ⚙️ Core Features
 - ✅ Visual Map Rendering
-> Each tile represents something and the map updates automatically after every move.
+> Randomized map and it updates after every move.
 - ✅ Button-based Player Controls:
 >Movement is done using on-screen direction buttons:
    - N ⬆️ North (up)
    - E ➡️ East (right)
    - W ⬅️ West (left)
    - S ⬇️ South (down)
-- ✅ Ghost with simple chase mechanics.
+- ✅ Ghost enemy with simple chase mechanics.
 - ✅ Pickups:
     - 🔑 Key - unlocks the exit
     - 🧊 Freezing Crystal - freezes the ghost for on turn.
+    - ⛑️ Healing potion - gives 5 extra moves/life counts.
+    - 🕳️ Trap - player loses 2 moves/life counts.
+> Ghost can interact with most tiles except the key.
 - ✅ Life/Move Counter
 > Reaching 0 moves results in instant defeat.
 - ✅ Win and lose conditions
@@ -46,14 +49,16 @@ No prompts, no console input, no text commands.
 - 🖥️ **HTML5** – For pages and contents structure
 - 🎨 **CSS3** - For styling , layout and responsiveness
 - 🧠 **JavaScript(Vanilla)** - Main logic and state handling
-- 🪄 **jQuery** - Effects
+- 🪄 **jQuery** - UI effects and transitions
 
 ## 🚀 Future Improvements or Plans
-- ⏳ Add multiple ghosts, add traps that would make player lose a turn. 
-- ⏳ Make freezing crystal to use later option available.
-- ⏳ Improve ghost movement logic, as its moves can be blocked by the wall. To improve, it should find an alternative direction that still brings closer to the player once blocked by the wall oe exit.
-- ⏳ Randomized map: generate key, walls, exit randomly when game starts.
-- ⏳ Sound effects
+- ⏳ Add levels of difficulty
+- ⏳ Improve ghost movement logic so it can find alternative paths when blocked by walls or exit
+- ⏳ Add sound effects
+- ⏳ Bigger grid with more items, hazards, special rooms
+
+## Acknowledgements
+A big thanks to everyone who shares feedback and especially to my teacher , **Rob Chamberlain** for his knowledge, kindness and dedication. His constant encouragement and patience makes programming not only easier to understand but genuinely enjoyable to learn.😊🙌
 
 ## 🤝 How To Contribute
 We love community contributions! Here is how you can help improve this project:
